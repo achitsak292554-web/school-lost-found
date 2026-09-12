@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>สร้างวินัยป้องกันของหาย</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+header{
+  background:linear-gradient(135deg,#2563eb,#38bdf8);
+  color:white;
+  padding:25px 20px;
+  text-align:center;
+  border-radius:0 0 30px 30px;
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+header p{
+  margin:8px 0 0;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:18px;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+h2{
+  margin-top:0;
+}
+
+button{
+  border:0;
+  padding:13px 18px;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  margin:4px;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+.role{
+  background:#e8f0ff;
+  color:#1753b7;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #d5dbe7;
+  border-radius:10px;
+  margin:6px 0 14px;
+  font-size:16px;
+}
+
+.item{
+  background:#f5f8ff;
+  border-left:5px solid #2563eb;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
+}
+
+.tip{
+  background:#fff7df;
+  padding:14px;
+  border-radius:12px;
+  margin-top:12px;
+}
+
+.check{
+  padding:10px;
+  background:#f1fdf3;
+  border-radius:10px;
+  margin:7px 0;
+}
+
+.small{
+  color:#667085;
+  font-size:14px;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#667085;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📦 สร้างวินัยป้องกันของหาย</h1>
+  <p>เริ่มจากตัวเรา รักษาของไว้ สร้างนิสัยดี ๆ ในโรงเรียน</p>
+</header>
+
+<div class="container">
+
+<!-- ผู้ใช้งาน -->
+<div class="card">
+
+<h2>👤 ผู้ใช้งาน</h2>
+
+<button class="role" onclick="selectRole('นักเรียน')">
+นักเรียน
+</button>
+
+<button class="role" onclick="selectRole('ครู')">
+ครู
+</button>
+
+<button class="role" onclick="selectRole('ผู้ปกครอง')">
+ผู้ปกครอง
+</button>
+
+<p id="roleText" class="small">
+ยังไม่ได้เลือกประเภทผู้ใช้
+</p>
+
+</div>
+
+
+<!-- เช็กของ -->
+<div class="card">
+
+<h2>✅ เช็กของก่อนออกจากห้อง</h2>
+
+<div class="check">
+<input type="checkbox"> 🎒 กระเป๋า
+</div>
+
+<div class="check">
+<input type="checkbox"> 📱 โทรศัพท์
+</div>
+
+<div class="check">
+<input type="checkbox"> 👛 กระเป๋าสตางค์
+</div>
+
+<div class="check">
+<input type="checkbox"> 📚 หนังสือ / สมุด
+</div>
+
+<div class="check">
+<input type="checkbox"> ✏️ อุปกรณ์การเรียน
+</div>
+
+<button onclick="checkItems()">
+ตรวจสอบ
+</button>
+
+<p id="checkResult"></p>
+
+</div>
+
+
+<!-- แจ้งของหาย -->
+<div class="card">
+
+<h2>🔎 แจ้งของหาย / ของที่พบ</h2>
+
+<label>ประเภท</label>
+
+<select id="type">
+<option>ของหาย</option>
+<option>ของที่พบ</option>
+</select>
+
+<label>ชื่อสิ่งของ</label>
+
+<input
+id="itemName"
+placeholder="เช่น กระเป๋าสตางค์"
+>
+
+<label>สถานที่</label>
+
+<input
+id="location"
+placeholder="เช่น อาคาร 2 ห้อง ม.4/3"
+>
+
+<label>รายละเอียด</label>
+
+<textarea
+id="detail"
+rows="3"
+placeholder="สี ลักษณะ หรือรายละเอียด"
+></textarea>
+
+<button onclick="addItem()">
+บันทึกข้อมูล
+</button>
+
+</div>
+
+
+<!-- รายการ -->
+<div class="card">
+
+<h2>📋 รายการของหาย / ของที่พบ</h2>
+
+<div id="items">
+<p class="small">ยังไม่มีรายการ</p>
+</div>
+
+</div>
+
+
+<!-- AI -->
+<div class="card">
+
+<h2>🤖 AI ช่วยป้องกันของหาย</h2>
+
+<p>
+ระบบสามารถให้คำแนะนำในการสร้างวินัย
+และป้องกันการทำสิ่งของหายในโรงเรียน
+</p>
+
+<button onclick="aiAdvice()">
+ขอคำแนะนำจาก AI
+</button>
+
+<div id="advice" class="tip">
+กดปุ่มเพื่อรับคำแนะนำ
+</div>
+
+</div>
+
+
+<!-- ผลลัพธ์ -->
+<div class="card">
+
+<h2>🎯 ผลลัพธ์ที่คาดหวัง</h2>
+
+<div class="check">
+✅ ลดปัญหาของหายในโรงเรียน
+</div>
+
+<div class="check">
+✅ นักเรียนมีความรับผิดชอบมากขึ้น
+</div>
+
+<div class="check">
+✅ ช่วยติดตามของที่หายได้ง่ายขึ้น
+</div>
+
+<div class="check">
+✅ สร้างความปลอดภัยภายในโรงเรียน
+</div>
+
+</div>
+
+</div>
+
+<footer>
+โรงเรียนปลอดของหาย 💙<br>
+เริ่มได้จากตัวเรา... วินัยเล็ก ๆ สร้างความปลอดภัยได้จริง
+</footer>
+
+
+<script>
+
+let role = "";
+
+let lostItems =
+JSON.parse(localStorage.getItem("lostItems") || "[]");
+
+
+function selectRole(selected){
+
+  role = selected;
+
+  document.getElementById("roleText").innerText =
+  "ผู้ใช้ปัจจุบัน: " + selected;
+
+}
+
+
+function checkItems(){
+
+  let checks =
+  document.querySelectorAll(
+    '.check input[type="checkbox"]'
+  );
+
+  let total = 0;
+
+  checks.forEach(function(check){
+    if(check.checked){
+      total++;
+    }
+  });
+
+  let result =
+  document.getElementById("checkResult");
+
+  if(total === checks.length){
+
+    result.innerText =
+    "🎉 เยี่ยมมาก! เช็กของครบแล้ว";
+
+  }else{
+
+    result.innerText =
+    "⚠️ เช็กของแล้ว " + total +
+    "/" + checks.length +
+    " รายการ อย่าลืมตรวจอีกครั้ง";
+
+  }
+
+}
+
+
+function addItem(){
+
+  if(role === ""){
+
+    alert("กรุณาเลือกประเภทผู้ใช้ก่อน");
+
+    return;
+  }
+
+  let name =
+  document.getElementById("itemName").value.trim();
+
+  let location =
+  document.getElementById("location").value.trim();
+
+  let detail =
+  document.getElementById("detail").value.trim();
+
+  let type =
+  document.getElementById("type").value;
+
+
+  if(name === "" || location === ""){
+
+    alert("กรุณากรอกชื่อสิ่งของและสถานที่");
+
+    return;
+  }
+
+
+  let newItem = {
+
+    type:type,
+
+    name:name,
+
+    location:location,
+
+    detail:detail,
+
+    role:role
+
+  };
+
+
+  lostItems.unshift(newItem);
+
+  localStorage.setItem(
+    "lostItems",
+    JSON.stringify(lostItems)
+  );
+
+
+  document.getElementById("itemName").value = "";
+
+  document.getElementById("location").value = "";
+
+  document.getElementById("detail").value = "";
+
+  showItems();
+
+}
+
+
+function showItems(){
+
+  let box =
+  document.getElementById("items");
+
+
+  if(lostItems.length === 0){
+
+    box.innerHTML =
+    '<p class="small">ยังไม่มีรายการ</p>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  lostItems.slice(0,10).forEach(function(item){
+
+    let div =
+    document.createElement("div");
+
+    div.className = "item";
+
+
+    div.innerHTML =
+
+    "<b>" +
+    item.type +
+    ": " +
+    item.name +
+    "</b><br>" +
+
+    "📍 สถานที่: " +
+    item.location +
+    "<br>" +
+
+    "📝 " +
+    (item.detail || "ไม่มีรายละเอียด") +
+    "<br>" +
+
+    "<span class='small'>" +
+    "แจ้งโดย: " +
+    item.role +
+    "</span>";
+
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+function aiAdvice(){
+
+  let tips = [
+
+    "🎒 เก็บของสำคัญไว้ในกระเป๋าที่ปิดมิดชิด",
+
+    "🏷️ เขียนชื่อและห้องเรียนไว้บนสิ่งของ",
+
+    "🔎 ตรวจโต๊ะและใต้โต๊ะก่อนออกจากห้อง",
+
+    "📱 เมื่อทำของหายควรแจ้งครูหรือผู้รับผิดชอบทันที",
+
+    "🤝 หากพบของคนอื่น ควรนำส่งครูแทนการเก็บไว้เอง",
+
+    "⏰ ก่อนกลับบ้านควรตรวจสิ่งของให้ครบทุกครั้ง"
+
+  ];
+
+
+  let random =
+  Math.floor(Math.random() * tips.length);
+
+
+  document.getElementById("advice").innerText =
+  tips[random];
+
+}
+
+
+showItems();
+
+</script>
+
+</body>
+   </html>
